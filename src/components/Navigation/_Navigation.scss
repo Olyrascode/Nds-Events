@@ -1,0 +1,25 @@
+.navigation {
+  &__logo {
+    height: 40px;
+    margin-right: 1rem;
+  }
+ 
+
+  &__menu {
+    margin-left: auto;
+  }
+
+  &__link {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 1rem;
+    
+    &:hover {
+      color: #ff6b00;
+    }
+
+    &--active {
+      color: #ff6b00;
+    }
+  }
+}

@@ -1,0 +1,762 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+.navigation__logo {
+  height: 40px;
+  margin-right: 1rem;
+}
+.navigation__menu {
+  margin-left: auto;
+}
+.navigation__link {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 1rem;
+}
+.navigation__link:hover {
+  color: #ff6b00;
+}
+.navigation__link--active {
+  color: #ff6b00;
+}
+
+.homeHero {
+  background-image: url("/public/img/home/evenementielle.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.heroLocation {
+  background-color: #000000;
+  color: white;
+  top: 0;
+  width: 100%;
+  text-align: center;
+}
+.heroLocation p {
+  margin-bottom: 0;
+  margin-top: 5px;
+}
+
+.heroBanner {
+  background-color: rgba(0, 0, 0, 0.3411764706);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.heroBanner h2 {
+  color: #FFFFFF;
+  font-family: "Montserrat", serif;
+  font-weight: 600;
+  text-shadow: 1px 2px 1px #000000;
+}
+.heroBanner h2 img {
+  height: 250px;
+}
+.heroBanner h3 {
+  color: #FFFFFF;
+  font-family: "Montserrat", Montserrat;
+  font-weight: 600;
+  text-shadow: 1px 2px 1px #000000;
+  font-size: 40px;
+  line-height: 1.2em;
+  text-align: center;
+}
+.heroBanner .homeCta {
+  max-width: 300px;
+  padding: 15px;
+  background-color: #FF6226;
+  border-radius: 5px;
+  border-style: none;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+}
+.heroBanner .homeCta:hover {
+  background-color: black;
+}
+.heroBanner a {
+  color: #FFFFFF;
+  text-decoration: none;
+  font-family: "Montserrat", Montserrat;
+  font-size: 16px;
+  font-weight: 600;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.descriptionContainer {
+  background-color: black;
+  color: white;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+.descriptionContainer h3 {
+  margin: 0;
+  font-family: "Montserrat", Montserrat;
+  font-size: 3rem;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+.descriptionContainer p {
+  max-width: 790px;
+  text-align: center;
+  font-family: "Montserrat", Montserrat;
+  font-weight: 400;
+  line-height: 1.6em;
+}
+
+.galeryContainer {
+  display: flex;
+  flex-direction: row;
+  height: 700px;
+  margin-top: 30px;
+  gap: 10px;
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.galeryContainer .left {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 33.33%;
+  gap: 10px;
+}
+.galeryContainer .left .topLeft {
+  background-image: url("/public/img/galery/tentes.png");
+  background-size: cover;
+  background-position: center;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: "Montserrat", Montserrat;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 30px;
+  transition: scale 0.2s;
+  line-height: 1.2em;
+}
+.galeryContainer .left .topLeft:hover {
+  scale: 102%;
+}
+.galeryContainer .left .bottomLeft {
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.galeryContainer .left .bottomLeft .div2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/public/img/galery/Vaisselle.png");
+  background-size: cover;
+  background-position: center;
+  width: 50%;
+  color: white;
+  font-family: "Montserrat", Montserrat;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 30px;
+  line-height: 1.2em;
+  transition: scale 0.2s;
+}
+.galeryContainer .left .bottomLeft .div2:hover {
+  scale: 102%;
+}
+.galeryContainer .left .bottomLeft .div3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/public/img/galery/Decoration.png");
+  background-size: cover;
+  background-position: center;
+  width: 50%;
+  color: white;
+  font-family: "Montserrat", Montserrat;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 30px;
+  line-height: 1.2em;
+  transition: scale 0.2s;
+}
+.galeryContainer .left .bottomLeft .div3:hover {
+  scale: 102%;
+}
+.galeryContainer .center {
+  width: 33.33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/public/img/galery/Mobilier.jpg");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  font-family: "Montserrat", Montserrat;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 30px;
+  line-height: 1.2em;
+  transition: scale 0.2s;
+}
+.galeryContainer .center:hover {
+  scale: 102%;
+}
+.galeryContainer .right {
+  display: flex;
+  flex-direction: column;
+  width: 33.33%;
+  height: 100%;
+  gap: 10px;
+}
+.galeryContainer .right .topRight {
+  background-image: url("/public/img/galery/Sonorisation.png");
+  background-size: cover;
+  background-position: center;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: "Montserrat", Montserrat;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 30px;
+  line-height: 1.2em;
+  transition: scale 0.2s;
+}
+.galeryContainer .right .topRight:hover {
+  scale: 102%;
+}
+.galeryContainer .right .bottomRight {
+  background-image: url("/public/img/galery/Borne_a_Selfies.png");
+  background-size: cover;
+  background-position: center;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: "Montserrat", Montserrat;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 30px;
+  line-height: 1.2em;
+  transition: scale 0.2s;
+}
+.galeryContainer .right .bottomRight:hover {
+  scale: 102%;
+}
+
+.evenementsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+.evenementsContainer h2 {
+  font-family: "Montserrat", Montserrat;
+  font-size: 2.2rem;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+.evenementsContainer .evenementsCardContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+.evenementsContainer .evenementsCardContainer .card1 {
+  background-image: url("/public/img/galery/Decoration.png");
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  align-items: center;
+}
+.evenementsContainer .evenementsCardContainer .card1 .backgroundFilter {
+  background-color: rgba(0, 0, 0, 0.3411764706);
+  width: 100%;
+  height: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.evenementsContainer .evenementsCardContainer .card1 hr {
+  border: 1px solid white;
+  width: 30%;
+}
+.evenementsContainer .evenementsCardContainer .card1 h3 {
+  color: white;
+  font-family: "Montserrat", Montserrat;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 30px;
+  line-height: 1.2em;
+}
+.evenementsContainer .evenementsCardContainer .card1 .itemContainer {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  font-family: "Montserrat", Montserrat;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 18px;
+  line-height: 1.2em;
+}
+.evenementsContainer .evenementsCardContainer .card1 .itemContainer .leftItem ul {
+  list-style: none;
+  text-align: center;
+}
+.evenementsContainer .evenementsCardContainer .card1 .itemContainer .leftItem ul li {
+  margin-bottom: 20px;
+  text-shadow: #000000 0px 0px 5px 4px;
+}
+.evenementsContainer .evenementsCardContainer .card1 .itemContainer .rightItem ul {
+  list-style: none;
+  text-align: center;
+}
+.evenementsContainer .evenementsCardContainer .card1 .itemContainer .rightItem ul li {
+  margin-bottom: 20px;
+  text-shadow: #000000 0px 0px 5px 4px;
+}
+.evenementsContainer .evenementsCardContainer .card2 {
+  background-image: url("/public/img/galery/tentes.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.evenementsContainer .evenementsCardContainer .card2 .backgroundFilter {
+  background-color: rgba(0, 0, 0, 0.3411764706);
+  width: 100%;
+  height: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.evenementsContainer .evenementsCardContainer .card2 hr {
+  border: 1px solid white;
+  width: 30%;
+}
+.evenementsContainer .evenementsCardContainer .card2 h3 {
+  color: white;
+  font-family: "Montserrat", Montserrat;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 30px;
+  line-height: 1.2em;
+}
+.evenementsContainer .evenementsCardContainer .card2 .itemContainer {
+  font-family: "Montserrat", Montserrat;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 18px;
+  color: white;
+  display: flex;
+  flex-direction: row;
+}
+.evenementsContainer .evenementsCardContainer .card2 .itemContainer .leftItem ul {
+  list-style: none;
+  text-align: center;
+}
+.evenementsContainer .evenementsCardContainer .card2 .itemContainer .leftItem ul li {
+  margin-bottom: 20px;
+  text-shadow: #000000 0px 0px 5px 4px;
+}
+.evenementsContainer .evenementsCardContainer .card2 .itemContainer .rightItem ul {
+  list-style: none;
+  text-align: center;
+}
+.evenementsContainer .evenementsCardContainer .card2 .itemContainer .rightItem ul li {
+  margin-bottom: 20px;
+  text-shadow: #000000 0px 0px 5px 4px;
+}
+.evenementsContainer .evenementsCardContainer .card3 {
+  background-image: url("/public/img/galery/Sonorisation.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+.evenementsContainer .evenementsCardContainer .card3 .backgroundFilter {
+  background-color: rgba(0, 0, 0, 0.3411764706);
+  width: 100%;
+  height: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.evenementsContainer .evenementsCardContainer .card3 hr {
+  border: 1px solid white;
+  width: 30%;
+}
+.evenementsContainer .evenementsCardContainer .card3 h3 {
+  color: white;
+  font-family: "Montserrat", Montserrat;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 30px;
+  line-height: 1.2em;
+}
+.evenementsContainer .evenementsCardContainer .card3 .itemContainer {
+  font-family: "Montserrat", Montserrat;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 18px;
+  color: white;
+  display: flex;
+  flex-direction: row;
+}
+.evenementsContainer .evenementsCardContainer .card3 .itemContainer .leftItem ul {
+  list-style: none;
+  text-align: center;
+}
+.evenementsContainer .evenementsCardContainer .card3 .itemContainer .leftItem ul li {
+  margin-bottom: 20px;
+  text-shadow: #000000 0px 0px 5px 4px;
+}
+.evenementsContainer .evenementsCardContainer .card3 .itemContainer .rightItem ul {
+  list-style: none;
+  text-align: center;
+}
+.evenementsContainer .evenementsCardContainer .card3 .itemContainer .rightItem ul li {
+  margin-bottom: 20px;
+  text-shadow: #000000 0px 0px 5px 4px;
+}
+
+.partnersContainer h2 {
+  text-align: center;
+  font-family: "Montserrat", Montserrat;
+  font-size: 2.2rem;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+.partnersContainer .partnersLogoTop ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+.partnersContainer .partnersLogoTop ul li {
+  list-style: none;
+}
+.partnersContainer .partnersLogoTop ul li img {
+  max-height: 100px;
+  max-width: 120px;
+}
+.partnersContainer .partnersLogoBottom ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+.partnersContainer .partnersLogoBottom ul li {
+  list-style: none;
+}
+.partnersContainer .partnersLogoBottom ul li img {
+  max-height: 100px;
+  max-width: 120px;
+}
+
+/*start styles*/
+.faqContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.faqContainer h2 {
+  color: white;
+}
+
+.accordion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  width: 90%;
+  max-width: 790px;
+}
+
+.accordion__item {
+  border: 1px solid #e5f3fa;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.accordion__header {
+  padding: 20px 25px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  color: white;
+}
+
+.accordion__header::after {
+  content: "";
+  background: url(/public/img/home/arrow.png) no-repeat center;
+  width: 20px;
+  height: 20px;
+  transition: 0.4s;
+  display: inline-block;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 1;
+}
+
+.accordion__header.active {
+  border-bottom: 1px solid white;
+}
+
+.accordion__header.active::after {
+  transform: rotateX(180deg);
+}
+
+.accordion__item .accordion__content {
+  padding: 0 25px;
+  max-height: 0;
+  transition: 0.5s;
+  overflow: hidden;
+  color: white;
+}
+
+.products {
+  background-color: #ffffff;
+  padding: 2rem;
+}
+.products__header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+.products__title {
+  color: #000000;
+  margin-bottom: 1rem;
+}
+.products__filters {
+  margin-bottom: 2rem;
+}
+.products__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+.products .product-card__image {
+  -o-object-fit: contain;
+     object-fit: contain; /* L'image est redimensionnée pour couvrir le conteneur */
+  -o-object-position: center;
+     object-position: center; /* Centre l'image dans le conteneur */
+}
+
+.login {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+  padding: 2rem;
+}
+.login__paper {
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+}
+.login__title {
+  color: var(--secondary-color);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.login__submit {
+  margin-top: 2rem;
+}
+.login__error {
+  color: #f44336;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.signup {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+  padding: 2rem;
+}
+.signup__paper {
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+}
+.signup__title {
+  color: var(--secondary-color);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.signup__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.signup__submit {
+  margin-top: 2rem;
+}
+.signup__error {
+  color: #f44336;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.product-packs {
+  background-color: var(--background-color);
+  padding: 3rem 0;
+}
+.product-packs__title {
+  color: var(--secondary-color);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.product-packs__subtitle {
+  color: #666;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.product-packs__card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.product-packs__discount {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+.product-packs .product-card__image {
+  -o-object-fit: contain;
+     object-fit: contain; /* L'image est redimensionnée pour couvrir le conteneur */
+  -o-object-position: center;
+     object-position: center; /* Centre l'image dans le conteneur */
+}
+
+.admin-panel {
+  padding: 2rem;
+  background-color: var(--background-color);
+  min-height: calc(100vh - 64px);
+}
+.admin-panel__content {
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.admin-panel .MuiTabs-root {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.admin-panel .MuiTab-root {
+  text-transform: none;
+  font-weight: 500;
+}
+.admin-panel .MuiTab-root.Mui-selected {
+  color: var(--primary-color);
+}
+
+footer {
+  border-top: 1px solid white;
+  padding: 50px;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5%;
+}
+footer .container1 img {
+  height: 80px;
+}
+footer .container1 p {
+  max-width: 400px;
+  font-size: 14px;
+}
+footer .container2 ul {
+  list-style: none;
+}
+footer .container3 ul {
+  list-style: none;
+}
+
+:root {
+  --primary-color: #ff6b00;
+  --secondary-color: #000000;
+  --background-color: #ffffff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  font-family: "Roboto", sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn:hover {
+  background-color: #cc5600;
+}/*# sourceMappingURL=main.css.map */
