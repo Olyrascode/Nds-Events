@@ -118,6 +118,7 @@ export default function Navigation() {
               color="inherit"
               onClick={handleMenu}
               className="navigation__user-menu"
+              alt="icon utilisatreur"
             >
               <AccountCircleIcon />
             </IconButton>

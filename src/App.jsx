@@ -11,6 +11,10 @@ import Products from './pages/Products/Products';
 import ProductDetails from './pages/ProductDetails/ProductDetails';
 import ProductPacks from './pages/ProductPacks/ProductPacks';
 import PackDetails from './pages/PackDetails/PackDetails';
+import Tentes from './pages/tentes/Tentes';
+import TentesPliantes from './pages/tentes/TentesPliantes';
+import Contact from './pages/Contact/Contact';
+import Apropos from './pages/Apropos/Apropos';
 import Checkout from './pages/Checkout';
 import OrderConfirmation from './pages/OrderConfirmation';
 import UserOrders from './pages/UserOrders';
@@ -34,6 +38,10 @@ function App() {
               <Route path="/products/:productId" element={<ProductDetails />} />
               <Route path="/packs" element={<ProductPacks />} />
               <Route path="/packs/:packId" element={<PackDetails />} />
+              <Route path='/tentes' element={<Tentes/>} />
+              <Route path='/tentes-pliantes' element={<TentesPliantes/>} />
+              <Route path="/Contact" element={<Contact/>} />
+              <Route path="/Apropos" element={<Apropos/>} />
               <Route
                 path="/checkout"
                 element={
