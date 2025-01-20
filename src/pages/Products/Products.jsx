@@ -25,9 +25,13 @@ export default function Products() {
         id: doc.id,
         ...doc.data()
       }));
-      setProducts(productsData);
-      
-      const uniqueCategories = [...new Set(productsData.map(product => product.category))];
+
+      // Exclure les produits de la catégorie "tentes"
+      const filteredProducts = productsData.filter(product => product.category !== 'Tentes');
+      setProducts(filteredProducts);
+
+      // Extraire les catégories uniques (sans "tentes")
+      const uniqueCategories = [...new Set(filteredProducts.map(product => product.category))];
       setCategories(uniqueCategories);
     } catch (error) {
       console.error('Error fetching products:', error);

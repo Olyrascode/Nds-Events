@@ -154,6 +154,7 @@ export default function ProductForm({
           <MenuItem value="mobilier, bars et accessoires lumineux">Mobilier, bars et accessoires lumineux</MenuItem>
           <MenuItem value="mobiliers et materiels divers">Mobiliers et matériels divers</MenuItem>
           <MenuItem value="bornes a selfies">Bornes à Selfies</MenuItem>
+          <MenuItem value='Tentes'>Tentes</MenuItem>
           
         </Select>
       </FormControl>

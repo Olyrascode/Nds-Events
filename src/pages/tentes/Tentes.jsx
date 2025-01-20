@@ -1,21 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Container, Typography, Grid } from '@mui/material';
 import "./_Tentes.scss";
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase/config';
+import ProductCard from '../../components/ProductCard/ProductCard';
 
 function Tentes() {
     const [activeTab, setActiveTab] = useState('location');
     const navigate = useNavigate();
-    const produits = [
-        {
-            id: 1,
-            nom: "Tente pliante 3x3m 9m² SANS côtés",
-            prix: "65,00€ TTC",
-            categorie: "tente",
-            image: "tente.jpg"
+    const [products, setProducts] = useState([]);
+    
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [openRentalDialog, setOpenRentalDialog] = useState(false);
+    useEffect(() => {
+        fetchProducts();
+      }, []);
+    
+      const fetchProducts = async () => {
+        try {
+          const querySnapshot = await getDocs(collection(db, 'products'));
+          const productsData = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+    
+          // Ne conserver que les produits de la catégorie "Tentes"
+          const tentesProducts = productsData.filter(product => product.category === 'Tentes');
+          setProducts(tentesProducts);
+        } catch (error) {
+          console.error('Error fetching products:', error);
         }
-    ];
-
-    const produitsTentes = produits.filter(produit => produit.categorie === "tente");
+      };
+      const handleRentClick = (product) => {
+        setSelectedProduct(product);
+        setOpenRentalDialog(true);
+      };
 
      useEffect(() => {
             window.scrollTo(0, 0);
@@ -35,8 +55,31 @@ function Tentes() {
 
            
             <section>
-          <h2>Tentes en location</h2>
+          <Container>
+        <div className="products__header">
+          <Typography variant="h4" component="h1" className="products__title">
+            Tentes en location
+          </Typography>
+        </div>
 
+        <div className="products__grid">
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onRent={handleRentClick}
+            />
+          ))}
+        </div>
+
+        {selectedProduct && (
+          <RentalDialog
+            open={openRentalDialog}
+            onClose={() => setOpenRentalDialog(false)}
+            product={selectedProduct}
+          />
+        )}
+      </Container>
             </section>
             <section>
               
