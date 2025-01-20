@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { jsPDF } from 'jspdf';
+
 import {
   Container,
   Paper,
@@ -13,7 +14,10 @@ import {
   TableRow,
   Button,
   CircularProgress,
-  Alert
+  Alert,
+  Dialog,
+  DialogTitle,
+  DialogContent,
 } from '@mui/material';
 import { format } from 'date-fns';
 import { useAuth } from '../contexts/AuthContext';
@@ -27,6 +31,11 @@ export default function UserOrders() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { currentUser } = useAuth();
+  const [openInvoiceModal, setOpenInvoiceModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [generatePDF, setGeneratePDF] = useState(false);
+
+  const invoiceRef = useRef();
 
   useEffect(() => {
     loadOrders();
@@ -47,11 +56,31 @@ export default function UserOrders() {
   };
 
   const handleDownloadInvoice = async (order) => {
-    try {
-      await generateInvoicePDF(order);
-    } catch (err) {
-      setError('Failed to generate invoice. Please try again.');
+    if (!order) {
+      console.error('No order provided for invoice generation.');
+      return;
     }
+  
+    try {
+      await generateInvoicePDF(order); // Appel à votre fichier invoiceGenerator.js
+    } catch (err) {
+      console.error('Failed to generate invoice:', err);
+      setError('Impossible de générer la facture. Veuillez réessayer.');
+    }
+  };
+  
+  
+  
+  
+
+  const handleOpenInvoiceModal = (order) => {
+    setSelectedOrder(order);
+    setOpenInvoiceModal(true);
+  };
+
+  const handleCloseInvoiceModal = () => {
+    setSelectedOrder(null);
+    setOpenInvoiceModal(false);
   };
 
   if (loading) {
@@ -113,9 +142,7 @@ export default function UserOrders() {
                     <TableCell align="right">
                       <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
                         <Button
-                          component={Link}
-                          to="/order-confirmation"
-                          state={{ order }}
+                          onClick={() => handleOpenInvoiceModal(order)}
                           size="small"
                         >
                           Voir
@@ -125,7 +152,7 @@ export default function UserOrders() {
                           onClick={() => handleDownloadInvoice(order)}
                           size="small"
                         >
-                          Invoice
+                          Télécharger la facture
                         </Button>
                       </Box>
                     </TableCell>
@@ -136,6 +163,58 @@ export default function UserOrders() {
           </TableContainer>
         )}
       </Paper>
+
+      {/* Modal pour afficher la facture */}
+      <Dialog
+        open={openInvoiceModal}
+        onClose={handleCloseInvoiceModal}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>Facture pour la commande #{selectedOrder?.id}</DialogTitle>
+        <DialogContent dividers>
+  <Box ref={invoiceRef} sx={{ p: 3 }}>
+    {selectedOrder && (
+      <>
+        <Typography variant="h6" gutterBottom>
+          Détails de la facture
+        </Typography>
+        <Typography>Date : {format(selectedOrder.createdAt.toDate(), 'PP')}</Typography>
+        <Typography>
+          Nom : {`${selectedOrder.billingInfo.firstName} ${selectedOrder.billingInfo.lastName}`}
+        </Typography>
+        <Typography>Adresse : {selectedOrder.billingInfo.address}</Typography>
+        <Typography>Total : {formatPrice(selectedOrder.total)}</Typography>
+        <Box sx={{ mt: 3 }}>
+          <Typography variant="h6">Produits :</Typography>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Produit</TableCell>
+                <TableCell>Quantité</TableCell>
+                <TableCell>Prix/jour</TableCell>
+                <TableCell>Total</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {selectedOrder.products.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.title}</TableCell>
+                  <TableCell>{item.quantity}</TableCell>
+                  <TableCell>{formatPrice(item.price)}</TableCell>
+                  <TableCell>{formatPrice(item.price * item.quantity)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
+      </>
+    )}
+  </Box>
+</DialogContent>
+
+
+      </Dialog>
     </Container>
   );
 }
