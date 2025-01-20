@@ -13,6 +13,8 @@ import ProductPacks from './pages/ProductPacks/ProductPacks';
 import PackDetails from './pages/PackDetails/PackDetails';
 import Tentes from './pages/tentes/Tentes';
 import TentesPliantes from './pages/tentes/TentesPliantes';
+import Pagodes from './pages/tentes/Pagodes';
+import TentesDeReception from './pages/tentes/TentesDeReceptions';
 import Contact from './pages/Contact/Contact';
 import Apropos from './pages/Apropos/Apropos';
 import Checkout from './pages/Checkout';
@@ -40,6 +42,8 @@ function App() {
               <Route path="/packs/:packId" element={<PackDetails />} />
               <Route path='/tentes' element={<Tentes/>} />
               <Route path='/tentes-pliantes' element={<TentesPliantes/>} />
+              <Route path='/pagodes' element={<Pagodes/>} />
+              <Route path='/tentes-reception' element={<TentesDeReception/>} />
               <Route path="/Contact" element={<Contact/>} />
               <Route path="/Apropos" element={<Apropos/>} />
               <Route

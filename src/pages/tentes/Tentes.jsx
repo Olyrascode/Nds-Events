@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./_Tentes.scss";
 
@@ -16,6 +16,10 @@ function Tentes() {
     ];
 
     const produitsTentes = produits.filter(produit => produit.categorie === "tente");
+
+     useEffect(() => {
+            window.scrollTo(0, 0);
+        }, []);
 
     return (
         <div className='tentesContainer'>
@@ -55,34 +59,34 @@ function Tentes() {
                 <div className='tenteCardContainer'>
                     <div className='tenteCard'>
                         <h4>Tentes de réception</h4>
-                        <img src="" alt="" />
+                        <img src="/img/tentespliantes/tente-de-reception.png" alt="" />
                         <ul>
                             <li> De 24m² à 364m²</li>
                             <li>De 295€ à 2690€</li>
                             <li> De multiples options disponnible</li>
-                            <li>Avec ou san installation</li>
+                            <li>Avec ou sans installation</li>
                         </ul>
                         <button onClick={() => navigate('/tentes-reception')}>Voir toutes les tentes de réception</button>
                     </div>
                     <div className='tenteCard'>
                         <h4>Pagodes</h4>
-                        <img src="" alt="" />
+                        <img src="/img/tentespliantes/pagode-de-reception.png" alt="" />
                         <ul>
                             <li> De 16m² à 36m²</li>
                             <li>De 290€ à 360€</li>
                             <li> De multiples options disponnible</li>
-                            <li>Avec ou san installation</li>
+                            <li>Avec ou sans installation</li>
                         </ul>
                         <button onClick={() => navigate('/pagodes')}>Voir toutes les pagodes de réception</button>
                     </div>
                     <div className='tenteCard'>
                         <h4>Tentes pliantes</h4>
-                        <img src="" alt="" />
+                        <img src="/img/tentespliantes/tentes-pliantes.png" alt="" />
                         <ul>
                             <li> De 9m² à 32m²</li>
                             <li>De 65€ à 225€</li>
                             <li> De multiples options disponnible</li>
-                            <li>Avec ou san installation</li>
+                            <li>Avec ou sans installation</li>
                         </ul>
                         <button onClick={() => navigate('/tentes-pliantes')}>Voir toutes les tentes pliantes</button>
                     </div>
