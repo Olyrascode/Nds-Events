@@ -10,7 +10,9 @@ import { isProductAvailable } from '../../utils/dateUtils';
 import { calculateRentalDays } from '../../utils/dateUtils';
 import { addDays } from 'date-fns';
 import './ProductDetails.scss';
-
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { fr } from 'date-fns/locale';
 export default function ProductDetails() {
   const { productId } = useParams();
   const navigate = useNavigate();
@@ -20,8 +22,8 @@ export default function ProductDetails() {
   const [error, setError] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [quantity, setQuantity] = useState(1);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [finalPrice, setFinalPrice] = useState(0); // Stockage du prix total final
 
   useEffect(() => {
@@ -110,13 +112,15 @@ export default function ProductDetails() {
           <p className="product-details__price">€{product.price} par jour</p>
         )}
 
-<RentalPeriod
-          startDate={startDate}
-          endDate={endDate}
-          onStartDateChange={setStartDate}
-          onEndDateChange={setEndDate}
-          minStartDate={minStartDate} // Transmettre minStartDate ici
-        />
+<LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fr}>
+          <RentalPeriod
+            startDate={startDate}
+            endDate={endDate}
+            onStartDateChange={setStartDate}
+            onEndDateChange={setEndDate}
+            minStartDate={minStartDate}
+          />
+        </LocalizationProvider>
 
         <QuantitySelector
           quantity={quantity}

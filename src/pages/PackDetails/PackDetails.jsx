@@ -8,6 +8,11 @@ import PackProducts from './components/PackProducts';
 import PriceCalculation from './components/PriceCalculation';
 import { fetchPackById } from '../../services/packs.service';
 import { isPackAvailable } from '../../utils/dateUtils';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { fr } from 'date-fns/locale';
+import { addDays } from 'date-fns';
+
 import './PackDetails.scss';
 
 export default function PackDetails() {
@@ -18,8 +23,8 @@ export default function PackDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     loadPack();
@@ -62,9 +67,13 @@ export default function PackDetails() {
     navigate('/cart');
   };
 
-  if (loading) return <div className="pack-details__loading">Loading...</div>;
+  if (loading) return <div className="pack-details__loading">Chargement...</div>;
   if (error) return <Alert severity="error">{error}</Alert>;
   if (!pack) return <Alert severity="error">Pack introuvable</Alert>;
+
+  const today = new Date();
+  const minStartDate = addDays(today, 2); // Bloque les deux prochains jours
+
 
   return (
     <div className="pack-details">
@@ -91,14 +100,16 @@ export default function PackDetails() {
 
 
 
-          <RentalPeriod
-            startDate={startDate}
-            endDate={endDate}
-            onStartDateChange={setStartDate}
-            onEndDateChange={setEndDate}
-            minStartDate={new Date()}
-            minRentalDays={pack.minRentalDays}
-          />
+          <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fr}>
+            <RentalPeriod
+              startDate={startDate}
+              endDate={endDate}
+              onStartDateChange={setStartDate}
+              onEndDateChange={setEndDate}
+              minStartDate={minStartDate}
+              minRentalDays={pack.minRentalDays}
+            />
+          </LocalizationProvider>
 
           <QuantitySelector
             quantity={quantity}
@@ -122,7 +133,7 @@ export default function PackDetails() {
             onClick={handleAddToCart}
             className="pack-details__add-to-cart"
           >
-            Add Pack to Cart
+            Ajouter le pack au panier
           </Button>
         </Paper>
       </Container>
