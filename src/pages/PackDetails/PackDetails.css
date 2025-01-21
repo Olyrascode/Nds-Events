@@ -8,13 +8,17 @@
 .pack-details__header {
   margin-bottom: 2rem;
 }
-.pack-details__title {
+.pack-details .pack-details__title {
   font-size: 2.5rem;
-  color: var(--secondary-color);
-  margin-bottom: 1rem;
+}
+.pack-details .pack-details__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
 .pack-details__image {
-  width: 100%;
+  width: 400px;
   max-height: 400px;
   -o-object-fit: cover;
      object-fit: cover;

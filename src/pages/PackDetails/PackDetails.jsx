@@ -70,10 +70,10 @@ export default function PackDetails() {
     <div className="pack-details">
       <Container>
         <Paper className="pack-details__content">
-          <div className="pack-details__header">
             <Typography variant="h1" className="pack-details__title">
               {pack.name}
             </Typography>
+          <div className="pack-details__header">
             {pack.imageUrl && (
               <img 
                 src={pack.imageUrl} 
@@ -81,17 +81,15 @@ export default function PackDetails() {
                 className="pack-details__image"
               />
             )}
+          <PackProducts products={pack.products} />
           </div>
 
           <Typography variant="body1" className="pack-details__description">
             {pack.description}
           </Typography>
 
-          <Typography variant="h6" className="pack-details__discount">
-            {pack.discountPercentage}% Promotion appliquée
-          </Typography>
 
-          <PackProducts products={pack.products} />
+
 
           <RentalPeriod
             startDate={startDate}

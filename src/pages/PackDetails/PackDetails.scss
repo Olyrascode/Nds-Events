@@ -9,15 +9,20 @@
   &__header {
     margin-bottom: 2rem;
   }
-
-  &__title {
+  .pack-details__title {
     font-size: 2.5rem;
-    color: var(--secondary-color);
-    margin-bottom: 1rem;
+  }
+  .pack-details__header {
+display: flex;
+flex-direction: row;
+justify-content: space-around;
+align-items: center;
+   
   }
 
+
   &__image {
-    width: 100%;
+    width: 400px;
     max-height: 400px;
     object-fit: cover;
     border-radius: 8px;
