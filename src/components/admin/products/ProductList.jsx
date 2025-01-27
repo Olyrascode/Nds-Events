@@ -110,9 +110,16 @@ export default function ProductList() {
   };
 
   const handleDeleteClick = (item) => {
+    // Vérifie que l'ID de l'item est bien défini
+    if (!item._id) {
+      console.error('Produit ID est manquant :', item); // Affiche un message d'erreur dans la console
+      return; // Si l'ID est manquant, arrête l'exécution
+    }
+    
     setSelectedItem(item);
     setIsDeleteDialogOpen(true);
   };
+  
 
   const handleEditSuccess = () => {
     loadItems();

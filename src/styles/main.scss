@@ -1,16 +1,16 @@
 // Import all component styles
-@import '../components/Navigation/Navigation';
-@import '../pages/Home/Home';
-@import '../pages/Products/Products';
-@import '../pages/Login/Login';
-@import '../pages/Signup/Signup';
-@import '../pages/ProductPacks/ProductPacks';
-@import '../pages/AdminPanel/AdminPanel';
-@import '../components/Footer/Footer';
+@use '../components/Navigation/Navigation';
+@use '../pages/Home/Home';
+@use '../pages/Products/Products';
+@use '../pages/Login/Login';
+@use '../pages/Signup/Signup';
+@use '../pages/ProductPacks/ProductPacks';
+@use '../pages/AdminPanel/AdminPanel';
+@use '../components/Footer/Footer';
 
 
 // scss admin panel //
-@import '../components/admin/ordersTab/OrdersTab';
+@use '../components/admin/ordersTab/OrdersTab';
 
 
 //font import //

@@ -20,21 +20,32 @@ export default function DeleteConfirmDialog({ open, onClose, item, onSuccess }) 
     try {
       setLoading(true);
       setError('');
-      
-      if (item.type === 'pack') {
-        await deletePack(item.id);
-      } else {
-        await deleteProduct(item.id);
+  
+      // Vérifie si l'ID est défini avant de procéder à la suppression
+      if (!item || !item._id) {
+        setError('ID du produit manquant');
+        return;
       }
-      
+  
+      if (item.type === 'pack') {
+        await deletePack(item._id);
+      } else {
+        await deleteProduct(item._id);
+      }
+  
       onSuccess();
+      onClose(); // Ferme la fenêtre après la suppression
     } catch (error) {
-      setError(`Failed to delete ${item.type}. Please try again.`);
-      console.error(`Error deleting ${item.type}:`, error);
+      setError(`Échec de la suppression du ${item.type}. Veuillez réessayer.`);
+      console.error(`Erreur lors de la suppression du ${item.type}:`, error);
+      if (error.response && error.response.data) {
+        setError(error.response.data.message || `Erreur inconnue lors de la suppression du ${item.type}`);
+      }
     } finally {
-      setLoading(false);
+      setLoading(false); // Réinitialiser l'état de chargement après l'opération
     }
   };
+  
 
   if (!item) return null;
 

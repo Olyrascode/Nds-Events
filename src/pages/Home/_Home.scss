@@ -1,9 +1,9 @@
-@import "./heroBanner/HeroBanner";
-@import "./shortDescription/ShortDescription";
-@import "./galeryShop/GaleryShop";
-@import "./evenements/Evenements";
-@import "./partners/Partners";
-@import "./faq/Faq"
+@use "./heroBanner/HeroBanner";
+@use "./shortDescription/ShortDescription";
+@use "./galeryShop/GaleryShop";
+@use "./evenements/Evenements";
+@use "./partners/Partners";
+@use "./faq/Faq"
 // .home {
 //   background-color: #ffffff;
 //   min-height: 100vh;
