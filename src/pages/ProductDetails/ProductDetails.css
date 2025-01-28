@@ -48,7 +48,8 @@
   padding: 15px;
   background-color: #FF6226;
   border-radius: 5px;
-  color: rgb(236, 236, 236);
+  color: rgb(255, 255, 255);
+  font-size: 18px;
   border-style: none;
   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.289);
 }

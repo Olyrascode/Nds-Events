@@ -71,7 +71,7 @@ export default function ProductCard({ product, isPack = false }) {
   const navigate = useNavigate();
 
   const handleViewDetails = () => {
-    const path = isPack ? `/packs/${product.id}` : `/products/${product.id}`;
+    const path = isPack ? `/packs/${product._id}` : `/products/${product._id}`;
     navigate(path);
   };
 

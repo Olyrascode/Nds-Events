@@ -38,21 +38,35 @@ export const createProduct = async (productData) => {
 };
 
 // Récupérer un produit par ID
+// export const fetchProductById = async (productId) => {
+//   try {
+//     const response = await fetch(`${API_URL}/api/products/${productId}`);
+
+//     if (!response.ok) {
+//       throw new Error('Product not found');
+//     }
+
+//     const product = await response.json();
+//     return product;
+//   } catch (error) {
+//     console.error('Error fetching product:', error);
+//     throw error;
+//   }
+// };
 export const fetchProductById = async (productId) => {
-  try {
-    const response = await fetch(`${API_URL}/api/products/${productId}`);
-
-    if (!response.ok) {
-      throw new Error('Product not found');
-    }
-
-    const product = await response.json();
-    return product;
-  } catch (error) {
-    console.error('Error fetching product:', error);
-    throw error;
+  const response = await fetch(`${API_URL}/api/products/${productId}`);
+  if (!response.ok) {
+    throw new Error('Product not found');
   }
+  const product = await response.json();
+
+  // Normaliser
+  return {
+    ...product,
+    id: product._id,
+  };
 };
+
 
 // Mettre à jour un produit
 export const updateProduct = async (productId, productData) => {
@@ -111,18 +125,34 @@ export const deleteProduct = async (productId) => {
 
 
 // Récupérer tous les produits
+// export const fetchProducts = async () => {
+//   try {
+//     const response = await fetch(`${API_URL}/api/products`);
+
+//     if (!response.ok) {
+//       throw new Error('Failed to fetch products');
+//     }
+
+//     const products = await response.json();
+//     return products;
+//   } catch (error) {
+//     console.error('Error fetching products:', error);
+//     throw error;
+//   }
+// };
 export const fetchProducts = async () => {
-  try {
-    const response = await fetch(`${API_URL}/api/products`);
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch products');
-    }
-
-    const products = await response.json();
-    return products;
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    throw error;
+  const response = await fetch(`${API_URL}/api/products`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch products');
   }
+  const products = await response.json();
+
+  // Transforme _id en id pour que tout votre front utilise .id
+  const normalized = products.map(prod => ({
+    ...prod,
+    id: prod._id,         // on crée un champ id
+  }));
+
+  return normalized;
 };
+

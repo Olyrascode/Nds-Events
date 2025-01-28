@@ -20,7 +20,7 @@
 }
 
 .homeHero {
-  background-image: url("/public/img/home/evenementielle.jpg");
+  background-image: url("/img/home/evenementielle.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -128,7 +128,7 @@
   gap: 10px;
 }
 .galeryContainer .left .topLeft {
-  background-image: url("/public/img/galery/tentes.png");
+  background-image: url("/img/galery/tentes.png");
   background-size: cover;
   background-position: center;
   height: 50%;
@@ -157,7 +157,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("/public/img/galery/Vaisselle.png");
+  background-image: url("/img/galery/Vaisselle.png");
   background-size: cover;
   background-position: center;
   width: 50%;
@@ -177,7 +177,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("/public/img/galery/Decoration.png");
+  background-image: url("/img/galery/Decoration.png");
   background-size: cover;
   background-position: center;
   width: 50%;
@@ -198,7 +198,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("/public/img/galery/Mobilier.jpg");
+  background-image: url("/img/galery/Mobilier.jpg");
   background-size: cover;
   background-position: center;
   color: white;
@@ -221,7 +221,7 @@
   gap: 10px;
 }
 .galeryContainer .right .topRight {
-  background-image: url("/public/img/galery/Sonorisation.png");
+  background-image: url("/img/galery/Sonorisation.png");
   background-size: cover;
   background-position: center;
   height: 50%;
@@ -241,7 +241,7 @@
   scale: 102%;
 }
 .galeryContainer .right .bottomRight {
-  background-image: url("/public/img/galery/Borne_a_Selfies.png");
+  background-image: url("/img/galery/Borne_a_Selfies.png");
   background-size: cover;
   background-position: center;
   height: 50%;
@@ -280,7 +280,7 @@
   align-items: center;
 }
 .evenementsContainer .evenementsCardContainer .card1 {
-  background-image: url("/public/img/galery/Decoration.png");
+  background-image: url("/img/galery/Decoration.png");
   background-size: cover;
   background-position: center;
   width: 100%;
@@ -337,7 +337,7 @@
   text-shadow: #000000 0px 0px 5px 4px;
 }
 .evenementsContainer .evenementsCardContainer .card2 {
-  background-image: url("/public/img/galery/tentes.png");
+  background-image: url("/img/galery/tentes.png");
   background-size: cover;
   background-position: center;
   display: flex;
@@ -394,7 +394,7 @@
   text-shadow: #000000 0px 0px 5px 4px;
 }
 .evenementsContainer .evenementsCardContainer .card3 {
-  background-image: url("/public/img/galery/Sonorisation.png");
+  background-image: url("/img/galery/Sonorisation.png");
   background-size: cover;
   background-position: center;
   display: flex;
@@ -530,7 +530,7 @@
 
 .accordion__header::after {
   content: "";
-  background: url(/public/img/home/arrow.png) no-repeat center;
+  background: url(/img/home/arrow.png) no-repeat center;
   width: 20px;
   height: 20px;
   transition: 0.4s;

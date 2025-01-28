@@ -30,19 +30,49 @@ export default function ProductDetails() {
     loadProduct();
   }, [productId]);
 
-  useEffect(() => {
-    // Recalcul du prix uniquement sur la page produit
-    const days = calculateRentalDays(startDate, endDate);
-    const basePrice = product?.price * quantity || 0;
-    let calculatedPrice = basePrice;
+  // useEffect(() => {
+  //   // Recalcul du prix uniquement sur la page produit
+  //   const days = calculateRentalDays(startDate, endDate);
+  //   const basePrice = product?.price * quantity || 0;
+  //   let calculatedPrice = basePrice;
 
+  //   if (days > 4) {
+  //     const extraDays = days - 4;
+  //     calculatedPrice = basePrice + (0.15 * basePrice * extraDays);
+  //   }
+
+  //   setFinalPrice(calculatedPrice);
+  // }, [selectedOptions, quantity, startDate, endDate, product]);
+  useEffect(() => {
+    if (!product) return;
+  
+    // 1. Nombre de jours
+    const days = calculateRentalDays(startDate, endDate);
+  
+    // 2. Calculer la somme des prix des options sélectionnées
+    let extraOptionsPrice = 0;
+    Object.values(selectedOptions).forEach(opt => {
+      // opt.price = le prix /jour pour cette option
+      extraOptionsPrice += opt.price;
+    });
+  
+    // 3. Prix unitaire (produit + options)
+    //    On suppose que le prix de l'option est aussi "par jour"
+    const dailyUnitPrice = product.price + extraOptionsPrice;
+  
+    // 4. Ensuite, multiplier par la quantité
+    let basePrice = dailyUnitPrice * quantity;
+  
+    // 5. Logique de majoration au-delà de 4 jours
     if (days > 4) {
       const extraDays = days - 4;
-      calculatedPrice = basePrice + (0.15 * basePrice * extraDays);
+      // 15% de basePrice en plus par jour supplémentaire
+      basePrice += 0.15 * basePrice * extraDays;
     }
-
-    setFinalPrice(calculatedPrice);
-  }, [selectedOptions, quantity, startDate, endDate, product]);
+  
+    setFinalPrice(basePrice);
+  }, [product, selectedOptions, quantity, startDate, endDate]);
+  
 
   const loadProduct = async () => {
     try {
@@ -134,6 +164,7 @@ export default function ProductDetails() {
           quantity={quantity}
           startDate={startDate}
           endDate={endDate}
+          selectedOptions={selectedOptions}
         />
 
         <p><strong>Total Calculé: {finalPrice.toFixed(2)}€</strong></p>
