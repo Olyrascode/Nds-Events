@@ -63,6 +63,10 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Typography, Button, Box, Chip } from '@mui/material';
 import './ProductCard.scss';
 
+// Importer API_URL depuis les variables d'environnement
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+
 export default function ProductCard({ product, isPack = false }) {
   const navigate = useNavigate();
 
@@ -71,12 +75,16 @@ export default function ProductCard({ product, isPack = false }) {
     navigate(path);
   };
 
+  // Générer l'URL de l'image en utilisant API_URL et product.imageFileName
+  const imageUrl = product.imageUrl || '/default-placeholder.png';
+
+
   return (
     <Card className="product-card">
       <CardMedia
         component="img"
         height="200"
-        image={product.imageUrl}
+        image={imageUrl}
         alt={product.title}
         className="product-card__image"
       />
