@@ -233,6 +233,7 @@ import React, { useState, useEffect } from 'react';
 import { generateInvoicePDF } from '../../../utils/invoiceGenerator';
 import DownloadIcon from '@mui/icons-material/Download';
 import { format } from 'date-fns'; // Importer 'format' depuis date-fns
+import { fr } from 'date-fns/locale';
 import { fetchAllOrders, deleteOrder } from '../../../services/orders.service';
 
 import {
@@ -306,7 +307,7 @@ export default function OrdersList() {
 
     const lowerSearch = searchTerm.toLowerCase();
     const newFiltered = orders.filter((order) => {
-      const matchesId = order.id.toLowerCase().includes(lowerSearch);
+      const matchesId = order._id.toLowerCase().includes(lowerSearch);
 
       const firstName = order?.billingInfo?.firstName || '';
       const lastName = order?.billingInfo?.lastName || '';
@@ -397,10 +398,10 @@ export default function OrdersList() {
               
 
               const startString = startDate
-                ? format(new Date(startDate), 'PP') // Formatte la date sans l'heure
+                ? format(new Date(startDate), 'PP', { locale: fr }) // Formatte la date sans l'heure
                 : '';
               const endString = endDate
-                ? format(new Date(endDate), 'PP') // Formatte la date sans l'heure
+                ? format(new Date(endDate), 'PP', { locale: fr }) // Formatte la date sans l'heure
                 : '';
 
               return (

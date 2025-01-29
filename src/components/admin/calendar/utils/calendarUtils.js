@@ -5,16 +5,18 @@ export const getOrdersForDay = (orders = [], date) => {
   if (!orders.length) return [];
   
   return orders.filter(order => {
-    const startDate = order.startDate.toDate();
-    const endDate = order.endDate.toDate();
-    
+    // Vérifie si startDate et endDate existent et convertit en Date JavaScript
+    const startDate = order.startDate ? new Date(order.startDate) : null;
+    const endDate = order.endDate ? new Date(order.endDate) : null;
+
     return (
-      isSameDay(startDate, date) ||
-      isSameDay(endDate, date) ||
-      isWithinInterval(date, { start: startDate, end: endDate })
+      (startDate && isSameDay(startDate, date)) ||
+      (endDate && isSameDay(endDate, date)) ||
+      (startDate && endDate && isWithinInterval(date, { start: startDate, end: endDate }))
     );
   });
 };
+
 
 export const getEventBarStyle = (isStart, isEnd, theme) => ({
   backgroundColor: theme.palette.primary.main,

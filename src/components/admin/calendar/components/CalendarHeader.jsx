@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import { HeaderCell } from '../styles/CalendarStyles';
 
 export default function CalendarHeader() {
-  const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const weekDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
   return (
     <Box sx={{ display: 'flex' }}>

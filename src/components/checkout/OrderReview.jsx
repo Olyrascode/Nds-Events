@@ -73,6 +73,7 @@ import {
   Box
 } from '@mui/material';
 import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 export default function OrderReview({ cart }) {
   // Calcul du total basé sur les prix enregistrés dans le panier
@@ -115,10 +116,10 @@ export default function OrderReview({ cart }) {
         Période de location:
       </Typography>
       <Typography variant="body2">
-        Du: {format(new Date(cart[0].startDate), 'PP')}
+        Du: {format(new Date(cart[0].startDate), 'PP', { locale: fr })}
       </Typography>
       <Typography variant="body2" gutterBottom>
-        Au: {format(new Date(cart[0].endDate), 'PP')}
+        Au: {format(new Date(cart[0].endDate), 'PP', { locale: fr })}
       </Typography>
       <Typography variant="h6" sx={{ mt: 2 }}>
         Total: ${total.toFixed(2)} {/* Total basé sur les prix du panier */}

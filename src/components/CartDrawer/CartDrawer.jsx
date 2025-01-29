@@ -17,6 +17,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useCart } from '../../contexts/CartContext';
 import { calculateTotalPrice } from '../../utils/cartUtils';
 import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 import './_CartDrawer.scss';
 
 export default function CartDrawer({ open, onClose }) {
@@ -87,10 +88,10 @@ export default function CartDrawer({ open, onClose }) {
               Période de location:
             </Typography>
             <Typography variant="body2" component="div">
-              Du: {format(new Date(cart[0].startDate), 'PP')}
+              Du: {format(new Date(cart[0].startDate), 'PP', { locale: fr })}
             </Typography>
             <Typography variant="body2" gutterBottom component="div">
-              Au: {format(new Date(cart[0].endDate), 'PP')}
+              Au: {format(new Date(cart[0].endDate), 'PP', { locale: fr })}
             </Typography>
 
             <Typography variant="h6" className="cart-drawer__total">

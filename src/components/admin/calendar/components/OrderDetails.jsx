@@ -26,11 +26,12 @@ export default function OrderDetails({ order }) {
           Période de location
         </Typography>
         <Typography>
-          Du: {format(order.startDate.toDate(), 'PPP')}
-        </Typography>
-        <Typography>
-          Au: {format(order.endDate.toDate(), 'PPP')}
-        </Typography>
+  Du: {format(new Date(order.startDate), 'PPP')}
+</Typography>
+<Typography>
+  Au: {format(new Date(order.endDate), 'PPP')}
+</Typography>
+
         <Typography sx={{ mt: 2 }}>
           Methode de réception: {order.deliveryMethod === 'delivery' ? 'Delivery' : 'Pickup'}
         </Typography>
