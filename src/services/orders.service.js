@@ -129,18 +129,23 @@ export const fetchAllOrders = async () => {
 
 // Supprimer une commande
 export const deleteOrder = async (orderId) => {
+  if (!orderId) {
+    console.error("🔴 Erreur : Pas d'ID de commande fourni !");
+    return;
+  }
+
   try {
     const response = await fetch(`${API_URL}/api/orders/${orderId}`, {
       method: 'DELETE',
     });
 
     if (!response.ok) {
-      throw new Error("Erreur lors de la suppression de la commande");
+      throw new Error(`Erreur lors de la suppression de la commande (Statut: ${response.status})`);
     }
 
-    return true; // Confirme la suppression
+    return true;
   } catch (error) {
-    console.error("Erreur deleteOrder:", error);
+    console.error("🔴 Erreur deleteOrder:", error);
     throw error;
   }
 };

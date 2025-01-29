@@ -10,6 +10,7 @@ import { isProductAvailable } from '../../utils/dateUtils';
 import { calculateRentalDays } from '../../utils/dateUtils';
 import { addDays } from 'date-fns';
 import './ProductDetails.scss';
+import { Container, Typography } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { fr } from 'date-fns/locale';
@@ -22,6 +23,7 @@ export default function ProductDetails({ onOpenCart }) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [quantityError, setQuantityError] = useState("");
   const [selectedOptions, setSelectedOptions] = useState({});
   const [quantity, setQuantity] = useState(1);
   const [startDate, setStartDate] = useState(null);
@@ -33,19 +35,6 @@ export default function ProductDetails({ onOpenCart }) {
     loadProduct();
   }, [productId]);
 
-  // useEffect(() => {
-  //   // Recalcul du prix uniquement sur la page produit
-  //   const days = calculateRentalDays(startDate, endDate);
-  //   const basePrice = product?.price * quantity || 0;
-  //   let calculatedPrice = basePrice;
-
-  //   if (days > 4) {
-  //     const extraDays = days - 4;
-  //     calculatedPrice = basePrice + (0.15 * basePrice * extraDays);
-  //   }
-
-  //   setFinalPrice(calculatedPrice);
-  // }, [selectedOptions, quantity, startDate, endDate, product]);
   useEffect(() => {
     if (!product) return;
   
@@ -93,6 +82,18 @@ export default function ProductDetails({ onOpenCart }) {
 
   const today = new Date();
   const minStartDate = addDays(today, 2); // Bloque les 2 jours suivants la date actuelle
+
+  const handleQuantityChange = (newQuantity) => {
+    setQuantity(newQuantity);
+    
+    if (!isProductAvailable(product, startDate, endDate, newQuantity)) {
+      setQuantityError("Stock insuffisant ou produit indisponible pour ces dates.");
+    } else {
+      setQuantityError("");
+    }
+  };
+
+  
 
 
   const handleAddToCart = () => {
@@ -156,10 +157,16 @@ export default function ProductDetails({ onOpenCart }) {
 
         <QuantitySelector
           quantity={quantity}
-          onChange={setQuantity}
+          onChange={handleQuantityChange}
           minQuantity={product.minQuantity}
           stock={product.stock}
-        />
+          />
+
+          {quantityError && (
+            <Typography color="error" variant="body2" sx={{ mt: 1 }}>
+              {quantityError}
+            </Typography>
+          )}
 
         <PriceCalculation
           price={product.price}

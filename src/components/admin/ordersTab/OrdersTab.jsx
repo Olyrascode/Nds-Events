@@ -331,17 +331,27 @@ export default function OrdersList() {
 
   // Demander confirmation avant de supprimer
   const handleDelete = async (orderId) => {
+    if (!orderId) {
+        console.error("❌ Erreur : l'ID de la commande est indéfini !");
+        return;
+    }
+
     const confirm = window.confirm("Voulez-vous vraiment supprimer cette commande ?");
     if (!confirm) return; // L'utilisateur a annulé
-  
+
     try {
-      await deleteOrder(orderId); // Suppression via l'API MongoDB
-      setOrders((prev) => prev.filter((order) => order._id !== orderId)); // Met à jour l'affichage
+        await deleteOrder(orderId);
+
+        // Met à jour immédiatement l'état des commandes sans rafraîchir la page
+        setOrders((prevOrders) => prevOrders.filter((order) => order._id !== orderId));
+
+        console.log("🟢 Commande supprimée avec succès !");
     } catch (error) {
-      console.error('Erreur lors de la suppression de la commande :', error);
-      setError("Impossible de supprimer la commande.");
+        console.error("🔴 Erreur lors de la suppression de la commande :", error);
     }
-  };
+};
+
+  
   
   
 
@@ -424,7 +434,7 @@ export default function OrdersList() {
                     </IconButton>
                     <IconButton
                       color="error"
-                      onClick={() => handleDelete(order.id)}
+                      onClick={() => handleDelete(order._id)}
                     >
                       <DeleteIcon />
                     </IconButton>
