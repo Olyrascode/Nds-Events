@@ -13,10 +13,12 @@ import './ProductDetails.scss';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { fr } from 'date-fns/locale';
-export default function ProductDetails() {
+
+
+export default function ProductDetails({ onOpenCart }) {
   const { productId } = useParams();
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { addToCart, setIsCartOpen } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,6 +27,7 @@ export default function ProductDetails() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [finalPrice, setFinalPrice] = useState(0); // Stockage du prix total final
+  
 
   useEffect(() => {
     loadProduct();
@@ -108,8 +111,7 @@ export default function ProductDetails() {
         startDate,
         endDate
       });
-
-      navigate('/cart');
+      setIsCartOpen(true);
     } catch (error) {
       setError(error.message || 'Failed to add product to cart');
     }

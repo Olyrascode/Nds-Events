@@ -45,7 +45,7 @@ export default function UserOrders() {
     try {
       setLoading(true);
       setError(null);
-      const userOrders = await fetchUserOrders(currentUser.uid);
+      const userOrders = await fetchUserOrders(currentUser.id || currentUser._id);
       setOrders(userOrders.sort((a, b) => b.createdAt - a.createdAt));
     } catch (err) {
       setError('Failed to load orders. Please try again.');
@@ -128,7 +128,7 @@ export default function UserOrders() {
                   <TableRow key={order.id}>
                     <TableCell>{order.id}</TableCell>
                     <TableCell>
-                      {format(order.createdAt.toDate(), 'PP')}
+                    {format(new Date(order.createdAt), 'PP')}
                     </TableCell>
                     <TableCell>
                       {order.products.length} Produit
@@ -216,7 +216,7 @@ export default function UserOrders() {
             {`${selectedOrder.billingInfo.zipCode} ${selectedOrder.billingInfo.city}`}
           </Typography>
           <Typography variant="body2">
-            Date de la facture : {format(selectedOrder.createdAt.toDate(), 'PP')}
+            Date de la facture : {format(new Date(selectedOrder.createdAt), 'PP')}
           </Typography>
         </Box>
 

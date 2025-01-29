@@ -60,11 +60,12 @@ export default function CartDrawer({ open, onClose }) {
                         <Typography variant="body2" component="div">
                           ${item.price}/jour
                         </Typography>
-                        {item.selectedOptions && Object.entries(item.selectedOptions).map(([key, value]) => (
-                          <Typography key={key} variant="body2" color="text.secondary" component="div">
-                            {key}: {value}
-                          </Typography>
-                        ))}
+                        {item.selectedOptions && Object.entries(item.selectedOptions).map(([optionName, optionValue]) => (
+  <Typography key={optionName} variant="body2">
+    {optionName}: {typeof optionValue === 'string' ? optionValue : optionValue.value} 
+    {optionValue.price ? ` (${optionValue.price}€)` : ''}
+  </Typography>
+))}
                       </Box>
                     }
                   />
@@ -93,7 +94,7 @@ export default function CartDrawer({ open, onClose }) {
             </Typography>
 
             <Typography variant="h6" className="cart-drawer__total">
-              Total: ${total.toFixed(2)}
+              Total: {total.toFixed(2)}€
             </Typography>
 
             <Button

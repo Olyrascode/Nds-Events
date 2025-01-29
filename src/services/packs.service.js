@@ -157,12 +157,17 @@ export const createPack = async (packData) => {
     const formData = new FormData();
     formData.append('name', packData.name);
     formData.append('description', packData.description);
-    // Tableau de produits [ { id, quantity }, ... ] => on stringify
-    formData.append('products', JSON.stringify(packData.products));
+
+    // On ne fait qu'une fois le mapping
+    const convertedProducts = packData.products.map(item => ({
+      product: item.id || item._id,
+      quantity: item.quantity
+    }));
+    formData.append('products', JSON.stringify(convertedProducts));
+
     formData.append('discountPercentage', packData.discountPercentage);
     formData.append('minRentalDays', packData.minRentalDays);
 
-    // Si on a une image
     if (packData.image) {
       formData.append('image', packData.image);
     }
@@ -220,7 +225,14 @@ export const updatePack = async (packId, packData) => {
     const formData = new FormData();
     formData.append('name', packData.name);
     formData.append('description', packData.description);
-    formData.append('products', JSON.stringify(packData.products));
+
+    // On convertit comme pour createPack
+    const convertedProducts = packData.products.map(item => ({
+      product: item.id || item._id,
+      quantity: item.quantity
+    }));
+    formData.append('products', JSON.stringify(convertedProducts));
+
     formData.append('discountPercentage', packData.discountPercentage);
     formData.append('minRentalDays', packData.minRentalDays);
 
@@ -244,6 +256,7 @@ export const updatePack = async (packId, packData) => {
     throw error;
   }
 };
+
 
 // Supprimer un pack
 export const deletePack = async (packId) => {

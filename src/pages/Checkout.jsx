@@ -78,11 +78,19 @@ export default function Checkout() {
   };
 
   const handlePaymentSuccess = async (paymentIntent) => {
+    console.log('🟡 currentUser:', currentUser); // Vérifie si currentUser existe
+  
     try {
+      if (!currentUser || !(currentUser._id || currentUser.id)) {
+        setError("Utilisateur non authentifié");
+        return;
+      }
+      const userId = currentUser._id || currentUser.id; 
+
       const { total } = calculateOrderTotal(cart, cart[0].startDate, cart[0].endDate, deliveryMethod);
-      
+  
       const order = await createOrder({
-        userId: currentUser.uid,
+        userId: userId,  // 🔥 Assure-toi d'utiliser `_id`
         customerEmail: currentUser.email,
         products: cart,
         deliveryMethod,
@@ -95,15 +103,14 @@ export default function Checkout() {
         status: 'confirmé',
         createdAt: new Date()
       });
-
+  
       clearCart();
       navigate('/order-confirmation', { state: { order } });
     } catch (error) {
-      setError('Echec de création de commande, veillez rééssayer.');
-      console.error('Erreur creation commande:', error);
+      setError('Échec de création de commande, veuillez réessayer.');
+      console.error('🔴 Erreur création commande:', error);
     }
   };
-
   const getStepContent = (step) => {
     switch (step) {
       case 0:

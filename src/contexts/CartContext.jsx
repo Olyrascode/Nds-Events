@@ -9,9 +9,11 @@ export function useCart() {
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const addToCart = (product, quantity, startDate, endDate) => {
     setCart(currentCart => addToCartUtil(currentCart, product, quantity, startDate, endDate));
+    setIsCartOpen(true);
   };
 
   const removeFromCart = (productId) => {
@@ -26,7 +28,9 @@ export function CartProvider({ children }) {
     cart,
     addToCart,
     removeFromCart,
-    clearCart
+    clearCart,
+    isCartOpen,  
+    setIsCartOpen 
   };
 
   return (

@@ -159,7 +159,7 @@ export default function Products() {
         <div className="products__grid">
           {filteredProducts.map((product) => (
             <ProductCard
-              key={product.id}
+              key={product.id || product._id}
               product={product}
               onRent={handleRentClick}
             />

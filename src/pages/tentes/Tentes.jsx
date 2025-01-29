@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Grid } from '@mui/material';
 import "./_Tentes.scss";
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../firebase/config';
+
 import ProductCard from '../../components/ProductCard/ProductCard';
 
 function Tentes() {

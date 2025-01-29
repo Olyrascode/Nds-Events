@@ -23,12 +23,13 @@ import './_Navigation.scss';
 
 export default function Navigation() {
   const { currentUser, logout } = useAuth();
-  const { cart } = useCart();
+  const { cart, isCartOpen, setIsCartOpen } = useCart();
+  
   const navigate = useNavigate();
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileAnchorEl, setMobileAnchorEl] = useState(null);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -153,6 +154,7 @@ export default function Navigation() {
           onClose={() => setIsCartOpen(false)}
         />
       </Toolbar>
+      
     </AppBar>
   );
 }

@@ -37,7 +37,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/products" element={<Products />} />
-              <Route path="/products/:productId" element={<ProductDetails />} />
+              <Route path="/products/:productId" element={<ProductDetails onOpenCart={() => setIsCartOpen(true)} />} />
               <Route path="/packs" element={<ProductPacks />} />
               <Route path="/packs/:packId" element={<PackDetails />} />
               <Route path='/tentes' element={<Tentes/>} />
