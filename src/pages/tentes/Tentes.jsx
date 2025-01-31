@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Grid } from '@mui/material';
 import "./_Tentes.scss";
-import { collection, getDocs } from 'firebase/firestore';
+// import { collection, getDocs } from 'firebase/firestore';
 
 import ProductCard from '../../components/ProductCard/ProductCard';
 

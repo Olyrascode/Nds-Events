@@ -1,190 +1,126 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAvailableStock } from '../../features/stockSlice';
 import { useCart } from '../../contexts/CartContext';
-import ProductOptions from './components/ProductOptions';
-import RentalPeriod from './components/RentalPeriod';
-import QuantitySelector from './components/QuantitySelector';
-import PriceCalculation from './components/PriceCalculation';
 import { fetchProductById } from '../../services/products.service';
-import { isProductAvailable } from '../../utils/dateUtils';
-import { calculateRentalDays } from '../../utils/dateUtils';
+import { isProductAvailable, calculateRentalDays } from '../../utils/dateUtils';
 import { addDays } from 'date-fns';
-import './ProductDetails.scss';
-import { Container, Typography } from '@mui/material';
+import { Typography, Container } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { fr } from 'date-fns/locale';
 
+import ProductOptions from './components/ProductOptions';
+import RentalPeriod from './components/RentalPeriod';
+import QuantitySelector from './components/QuantitySelector';
+import PriceCalculation from './components/PriceCalculation';
 
-export default function ProductDetails({ onOpenCart }) {
+import './ProductDetails.scss';
+
+export default function ProductDetails() {
   const { productId } = useParams();
-  const navigate = useNavigate();
   const { addToCart, setIsCartOpen } = useCart();
+  const dispatch = useDispatch();
+
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [quantityError, setQuantityError] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState({});
   const [quantity, setQuantity] = useState(1);
+  const [selectedOptions, setSelectedOptions] = useState({});
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [finalPrice, setFinalPrice] = useState(0); // Stockage du prix total final
-  
+  const [finalPrice, setFinalPrice] = useState(0);
+  const [error, setError] = useState(null);
+  const [quantityError, setQuantityError] = useState("");
+
+  const availableStock = useSelector((state) => state.stock.stockByProduct[productId]);
+  const stockLoading = useSelector((state) => state.stock.loading);
 
   useEffect(() => {
+    async function loadProduct() {
+      try {
+        setError(null);
+        const productData = await fetchProductById(productId);
+        setProduct(productData);
+        setQuantity(productData.minQuantity || 1);
+      } catch {
+        setError("Impossible de charger le produit.");
+      }
+    }
     loadProduct();
   }, [productId]);
 
   useEffect(() => {
-    if (!product) return;
-  
-    // 1. Nombre de jours
-    const days = calculateRentalDays(startDate, endDate);
-  
-    // 2. Calculer la somme des prix des options sélectionnées
-    let extraOptionsPrice = 0;
-    Object.values(selectedOptions).forEach(opt => {
-      // opt.price = le prix /jour pour cette option
-      extraOptionsPrice += opt.price;
-    });
-  
-    // 3. Prix unitaire (produit + options)
-    //    On suppose que le prix de l'option est aussi "par jour"
-    const dailyUnitPrice = product.price + extraOptionsPrice;
-  
-    // 4. Ensuite, multiplier par la quantité
-    let basePrice = dailyUnitPrice * quantity;
-  
-    // 5. Logique de majoration au-delà de 4 jours
-    if (days > 4) {
-      const extraDays = days - 4;
-      // 15% de basePrice en plus par jour supplémentaire
-      basePrice += 0.15 * basePrice * extraDays;
+    if (productId && startDate && endDate) {
+      console.log(`🔍 Vérification du stock pour ${productId} du ${startDate} au ${endDate}`);
+      dispatch(fetchAvailableStock({ productId, startDate, endDate }));
     }
+  }, [productId, startDate, endDate, dispatch]);
   
+
+  useEffect(() => {
+    if (!product) return;
+
+    const days = calculateRentalDays(startDate, endDate);
+    const extraOptionsPrice = Object.values(selectedOptions).reduce((acc, opt) => acc + opt.price, 0);
+    const dailyUnitPrice = product.price + extraOptionsPrice;
+
+    let basePrice = dailyUnitPrice * quantity;
+    if (days > 4) basePrice += 0.15 * basePrice * (days - 4);
+
     setFinalPrice(basePrice);
   }, [product, selectedOptions, quantity, startDate, endDate]);
-  
-
-  const loadProduct = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const productData = await fetchProductById(productId);
-      setProduct(productData);
-      setQuantity(productData.minQuantity || 1);
-    } catch (err) {
-      setError('Failed to load product details');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const today = new Date();
-  const minStartDate = addDays(today, 2); // Bloque les 2 jours suivants la date actuelle
 
   const handleQuantityChange = (newQuantity) => {
     setQuantity(newQuantity);
-    
-    if (!isProductAvailable(product, startDate, endDate, newQuantity)) {
-      setQuantityError("Stock insuffisant ou produit indisponible pour ces dates.");
-    } else {
-      setQuantityError("");
-    }
+    setQuantityError(isProductAvailable(product, startDate, endDate, newQuantity) ? "" : "Stock insuffisant.");
   };
-
-  
-
 
   const handleAddToCart = () => {
-    try {
-      if (!isProductAvailable(product, startDate, endDate, quantity)) {
-        setError('Product is not available for the selected dates and quantity');
-        return;
-      }
-
-      // Le prix total est transmis directement au panier
-      addToCart({
-        ...product,
-        selectedOptions,
-        price: finalPrice,  // Envoi du prix total déjà calculé
-        quantity,
-        startDate,
-        endDate
-      });
-      setIsCartOpen(true);
-    } catch (error) {
-      setError(error.message || 'Failed to add product to cart');
+    if (!isProductAvailable(product, startDate, endDate, quantity)) {
+      setError("Produit indisponible pour ces dates.");
+      return;
     }
+
+    addToCart({ ...product, selectedOptions, price: finalPrice, quantity, startDate, endDate });
+    setIsCartOpen(true);
   };
 
-  if (loading) return <div className="product-details__loading">Chargement...</div>;
-  if (error) return <div className="product-details__error">{error}</div>;
-  if (!product) return <div className="product-details__error">Produit introuvable</div>;
+  if (!product) return <div className="product-details__error">{error || "Produit introuvable."}</div>;
 
   return (
-    <div className="product-details">
-      <div className="product-details__content">
-        <h1 className="product-details__title">{product.title}</h1>
-        
-        {product.imageUrl && (
-          <img 
-            src={product.imageUrl} 
-            alt={product.title} 
-            className="product-details__image"
-          />
-        )}
+    <Container className="product-details">
+      <Typography variant="h4">{product.title}</Typography>
 
-        {product.options && product.options.length > 0 ? (
-          <ProductOptions
-            options={product.options}
-            selectedOptions={selectedOptions}
-            onChange={setSelectedOptions}
-          />
-        ) : (
-          <p className="product-details__price">€{product.price} par jour</p>
-        )}
+      {product.imageUrl && <img src={product.imageUrl} alt={product.title} className="product-details__image" />}
 
-<LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fr}>
-          <RentalPeriod
-            startDate={startDate}
-            endDate={endDate}
-            onStartDateChange={setStartDate}
-            onEndDateChange={setEndDate}
-            minStartDate={minStartDate}
-          />
-        </LocalizationProvider>
+      {product.options?.length > 0 ? (
+        <ProductOptions options={product.options} selectedOptions={selectedOptions} onChange={setSelectedOptions} />
+      ) : (
+        <Typography variant="h6">€{product.price} par jour</Typography>
+      )}
 
-        <QuantitySelector
-          quantity={quantity}
-          onChange={handleQuantityChange}
-          minQuantity={product.minQuantity}
-          stock={product.stock}
-          />
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fr}>
+        <RentalPeriod startDate={startDate} endDate={endDate} onStartDateChange={setStartDate} onEndDateChange={setEndDate} minStartDate={addDays(new Date(), 2)} />
+      </LocalizationProvider>
 
-          {quantityError && (
-            <Typography color="error" variant="body2" sx={{ mt: 1 }}>
-              {quantityError}
-            </Typography>
-          )}
+      // ✅ Affichage du stock disponible
+{stockLoading ? (
+  <Typography color="textSecondary" variant="body2">Chargement du stock...</Typography>
+) : availableStock !== undefined ? (
+  <Typography color="textSecondary" variant="body2" sx={{ mt: 1 }}>
+    Stock disponible : <strong>{availableStock}</strong>
+  </Typography>
+) : null}
 
-        <PriceCalculation
-          price={product.price}
-          quantity={quantity}
-          startDate={startDate}
-          endDate={endDate}
-          selectedOptions={selectedOptions}
-        />
+      <QuantitySelector quantity={quantity} onChange={handleQuantityChange} minQuantity={product.minQuantity} stock={product.stock} />
 
-        <p><strong>Total Calculé: {finalPrice.toFixed(2)}€</strong></p>
+      {quantityError && <Typography color="error" variant="body2">{quantityError}</Typography>}
 
-        <button
-          className="product-details__add-to-cart"
-          onClick={handleAddToCart}
-        >
-          Ajouter au panier
-        </button>
-      </div>
-    </div>
+      <PriceCalculation price={product.price} quantity={quantity} startDate={startDate} endDate={endDate} selectedOptions={selectedOptions} />
+
+      <Typography variant="h6"><strong>Total : {finalPrice.toFixed(2)}€</strong></Typography>
+
+      <button className="product-details__add-to-cart" onClick={handleAddToCart}>Ajouter au panier</button>
+    </Container>
   );
 }
