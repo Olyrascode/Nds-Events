@@ -1,28 +1,36 @@
-// import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+// import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// // 📌 Fonction pour récupérer le stock depuis l'API
 // const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-// // Thunk pour récupérer le stock disponible en fonction des dates
 // export const fetchAvailableStock = createAsyncThunk(
-//   "stock/fetchAvailableStock",
-//   async ({ productId, startDate, endDate }) => {
-//     const response = await fetch(`${API_URL}/api/stock/${productId}?startDate=${startDate}&endDate=${endDate}`);
-//     if (!response.ok) throw new Error("Erreur récupération stock");
-//     const data = await response.json();
-//     return { productId, availableStock: data.availableStock };
+//   'stock/fetchAvailableStock',
+//   async ({ productId, startDate, endDate }, { rejectWithValue }) => {
+//     try {
+//       const response = await fetch(
+//         `${API_URL}/api/stock/${productId}?startDate=${startDate}&endDate=${endDate}`
+//       );
+
+//       if (!response.ok) {
+//         const error = await response.json();
+//         return rejectWithValue(error.message || 'Erreur lors de la récupération du stock');
+//       }
+
+//       const data = await response.json();
+//       return { productId, availableStock: data.availableStock };
+//     } catch (error) {
+//       return rejectWithValue('Erreur serveur');
+//     }
 //   }
 // );
 
-// // Slice Redux
 // const stockSlice = createSlice({
-//   name: "stock",
+//   name: 'stock',
 //   initialState: {
-//     stockByProduct: {}, // { productId: stock }
+//     stockByProduct: {}, // Structure : { productId: stockValue }
 //     loading: false,
 //     error: null,
 //   },
-//   reducers: {}, // Pas besoin d'autres reducers pour l'instant
+//   reducers: {},
 //   extraReducers: (builder) => {
 //     builder
 //       .addCase(fetchAvailableStock.pending, (state) => {
@@ -30,13 +38,12 @@
 //         state.error = null;
 //       })
 //       .addCase(fetchAvailableStock.fulfilled, (state, action) => {
-//         const { productId, availableStock } = action.payload;
-//         state.stockByProduct[productId] = availableStock;
 //         state.loading = false;
+//         state.stockByProduct[action.payload.productId] = action.payload.availableStock;
 //       })
 //       .addCase(fetchAvailableStock.rejected, (state, action) => {
 //         state.loading = false;
-//         state.error = action.error.message;
+//         state.error = action.payload;
 //       });
 //   },
 // });
@@ -46,6 +53,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
+// ✅ Fetch pour les produits individuels
 export const fetchAvailableStock = createAsyncThunk(
   'stock/fetchAvailableStock',
   async ({ productId, startDate, endDate }, { rejectWithValue }) => {
@@ -67,16 +75,40 @@ export const fetchAvailableStock = createAsyncThunk(
   }
 );
 
+// ✅ Fetch pour les packs
+export const fetchAvailablePackStock = createAsyncThunk(
+  'stock/fetchAvailablePackStock',
+  async ({ packId, startDate, endDate }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `${API_URL}/api/packs/${packId}/availability?startDate=${startDate}&endDate=${endDate}`
+      );
+
+      if (!response.ok) {
+        const error = await response.json();
+        return rejectWithValue(error.message || 'Erreur lors de la récupération du stock du pack');
+      }
+
+      const data = await response.json();
+      return { packId, availableStock: data.availableStock };
+    } catch (error) {
+      return rejectWithValue('Erreur serveur');
+    }
+  }
+);
+
 const stockSlice = createSlice({
   name: 'stock',
   initialState: {
-    stockByProduct: {}, // Structure : { productId: stockValue }
+    stockByProduct: {}, // Stock des produits individuels
+    stockByPack: {},    // ✅ Stock des packs
     loading: false,
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // ✅ Gestion du stock des produits
       .addCase(fetchAvailableStock.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -88,8 +120,24 @@ const stockSlice = createSlice({
       .addCase(fetchAvailableStock.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      // ✅ Gestion du stock des packs
+      .addCase(fetchAvailablePackStock.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAvailablePackStock.fulfilled, (state, action) => {
+        state.loading = false;
+        state.stockByPack[action.payload.packId] = action.payload.availableStock;
+      })
+      .addCase(fetchAvailablePackStock.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
+// ✅ Vérifie bien l'export ici :
 export default stockSlice.reducer;
+// export { fetchAvailableStock, fetchAvailablePackStock };
