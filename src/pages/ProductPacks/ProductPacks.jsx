@@ -51,8 +51,8 @@ export default function ProductPacks() {
         </Typography>
 
         <Grid container spacing={4}>
-          {packs.map((pack) => (
-            <Grid item key={pack.id} xs={12} sm={6} md={4}>
+          {packs.map((pack, index) => (
+            <Grid item key={pack.id || index} xs={12} sm={6} md={4}>
               <ProductCard
                 product={pack}
                 onRent={handleRentClick}

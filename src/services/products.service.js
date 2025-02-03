@@ -11,6 +11,7 @@ export const createProduct = async (productData) => {
     formData.append('category', productData.category);
     formData.append('stock', productData.stock || 0);
     formData.append('options', JSON.stringify(productData.options || []));
+    formData.append('lotSize', productData.lotSize || 1);
     if (productData.image) {
       formData.append('image', productData.image);
     }
@@ -37,22 +38,6 @@ export const createProduct = async (productData) => {
   }
 };
 
-// Récupérer un produit par ID
-// export const fetchProductById = async (productId) => {
-//   try {
-//     const response = await fetch(`${API_URL}/api/products/${productId}`);
-
-//     if (!response.ok) {
-//       throw new Error('Product not found');
-//     }
-
-//     const product = await response.json();
-//     return product;
-//   } catch (error) {
-//     console.error('Error fetching product:', error);
-//     throw error;
-//   }
-// };
 export const fetchProductById = async (productId) => {
   const response = await fetch(`${API_URL}/api/products/${productId}`);
   if (!response.ok) {
@@ -78,6 +63,7 @@ export const updateProduct = async (productId, productData) => {
     formData.append('minQuantity', productData.minQuantity);
     formData.append('category', productData.category);
     formData.append('stock', productData.stock || 0);
+    formData.append('lotSize', productData.lotSize || 1);
     formData.append('options', JSON.stringify(productData.options || []));
     if (productData.image) {
       formData.append('image', productData.image);
@@ -124,22 +110,6 @@ export const deleteProduct = async (productId) => {
 };
 
 
-// Récupérer tous les produits
-// export const fetchProducts = async () => {
-//   try {
-//     const response = await fetch(`${API_URL}/api/products`);
-
-//     if (!response.ok) {
-//       throw new Error('Failed to fetch products');
-//     }
-
-//     const products = await response.json();
-//     return products;
-//   } catch (error) {
-//     console.error('Error fetching products:', error);
-//     throw error;
-//   }
-// };
 export const fetchProducts = async () => {
   const response = await fetch(`${API_URL}/api/products`);
   if (!response.ok) {

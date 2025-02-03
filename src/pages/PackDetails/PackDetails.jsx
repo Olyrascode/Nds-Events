@@ -1,158 +1,15 @@
-// import { useState, useEffect } from 'react';
-// import { useParams, useNavigate } from 'react-router-dom';
-// import { useCart } from '../../contexts/CartContext';
-// import { Container, Typography, Paper, Box, Button, Alert } from '@mui/material';
-// import RentalPeriod from '../ProductDetails/components/RentalPeriod';
-// import QuantitySelector from '../ProductDetails/components/QuantitySelector';
-// import PackProducts from './components/PackProducts';
-// import PriceCalculation from './components/PriceCalculation';
-// import { fetchPackById } from '../../services/packs.service';
-// import { isPackAvailable } from '../../utils/dateUtils';
-// import { LocalizationProvider } from '@mui/x-date-pickers';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { fr } from 'date-fns/locale';
-// import { addDays } from 'date-fns';
-
-// import './PackDetails.scss';
-
-// export default function PackDetails() {
-//   const { packId } = useParams();
-//   const navigate = useNavigate();
-//   const { addToCart } = useCart();
-//   const [pack, setPack] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [quantity, setQuantity] = useState(1);
-//   const [startDate, setStartDate] = useState(null);
-//   const [endDate, setEndDate] = useState(null);
-
-//   useEffect(() => {
-//     loadPack();
-//   }, [packId]);
-
-//   const loadPack = async () => {
-//     try {
-//       setLoading(true);
-//       setError(null);
-//       const packData = await fetchPackById(packId);
-//       setPack(packData);
-//       setQuantity(packData.minQuantity || 1);
-//     } catch (err) {
-//       setError('Failed to load pack details');
-//       console.error('Error loading pack:', err);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const handleAddToCart = () => {
-//     if (!isPackAvailable(pack, startDate, endDate, quantity)) {
-//       setError("Le pack n'est pas disponnible pour les dates selectionées ou les quantités");
-//       return;
-//     }
-
-//     const rentalDays = calculateRentalDays(startDate, endDate);
-//     if (rentalDays < pack.minRentalDays) {
-//       setError(`Le minimum de jour de location pour ce pack est de  ${pack.minRentalDays} jours`);
-//       return;
-//     }
-
-//     addToCart({
-//       ...pack,
-//       type: 'pack',
-//       quantity,
-//       startDate,
-//       endDate
-//     });
-//     navigate('/cart');
-//   };
-
-//   if (loading) return <div className="pack-details__loading">Chargement...</div>;
-//   if (error) return <Alert severity="error">{error}</Alert>;
-//   if (!pack) return <Alert severity="error">Pack introuvable</Alert>;
-
-//   const today = new Date();
-//   const minStartDate = addDays(today, 2); // Bloque les deux prochains jours
-
-
-//   return (
-//     <div className="pack-details">
-//       <Container>
-//         <Paper className="pack-details__content">
-//             <Typography variant="h1" className="pack-details__title">
-//               {pack.name}
-//             </Typography>
-//           <div className="pack-details__header">
-//             {pack.imageUrl && (
-//               <img 
-//                 src={pack.imageUrl} 
-//                 alt={pack.name} 
-//                 className="pack-details__image"
-//               />
-//             )}
-//           <PackProducts products={pack.products} />
-//           </div>
-
-//           <Typography variant="body1" className="pack-details__description">
-//             {pack.description}
-//           </Typography>
-
-
-
-
-//           <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fr}>
-//             <RentalPeriod
-//               startDate={startDate}
-//               endDate={endDate}
-//               onStartDateChange={setStartDate}
-//               onEndDateChange={setEndDate}
-//               minStartDate={minStartDate}
-//               minRentalDays={pack.minRentalDays}
-//             />
-//           </LocalizationProvider>
-
-//           <QuantitySelector
-//             quantity={quantity}
-//             onChange={setQuantity}
-//             minQuantity={pack.minQuantity}
-//           />
-
-//           <PriceCalculation
-//             products={pack.products}
-//             quantity={quantity}
-//             startDate={startDate}
-//             endDate={endDate}
-//             discountPercentage={pack.discountPercentage}
-//           />
-
-//           <Button
-//             variant="contained"
-//             color="primary"
-//             fullWidth
-//             size="large"
-//             onClick={handleAddToCart}
-//             className="pack-details__add-to-cart"
-//           >
-//             Ajouter le pack au panier
-//           </Button>
-//         </Paper>
-//       </Container>
-//     </div>
-//   );
-// }
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAvailablePackStock } from '../../features/stockSlice';
-
+import { useDispatch } from 'react-redux';
+import { fetchPackById } from '../../services/packs.service';
 
 import { Container, Typography, Paper, Button, Alert } from '@mui/material';
 import RentalPeriod from '../ProductDetails/components/RentalPeriod';
 import QuantitySelector from '../ProductDetails/components/QuantitySelector';
 import PackProducts from './components/PackProducts';
 import PriceCalculation from './components/PriceCalculation';
-import { fetchPackById } from '../../services/packs.service';
+
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { fr } from 'date-fns/locale';
@@ -162,7 +19,6 @@ import './PackDetails.scss';
 
 export default function PackDetails() {
   const { packId } = useParams();
-  const navigate = useNavigate();
   const { addToCart } = useCart();
   const dispatch = useDispatch();
 
@@ -170,11 +26,12 @@ export default function PackDetails() {
   const [quantity, setQuantity] = useState(1);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [finalPrice, setFinalPrice] = useState(0);
   const [error, setError] = useState(null);
+  const [productStockAvailability, setProductStockAvailability] = useState({});
+  const [maxPackQuantity, setMaxPackQuantity] = useState(null);
 
-  const availableStock = useSelector((state) => state.stock.stockByPack[packId]);
-  const stockLoading = useSelector((state) => state.stock.loading);
-
+  // ✅ Charger les infos du pack
   useEffect(() => {
     async function loadPack() {
       try {
@@ -189,20 +46,69 @@ export default function PackDetails() {
     loadPack();
   }, [packId]);
 
-  useEffect(() => {
-    if (packId && startDate && endDate) {
-      console.log(`🔍 Vérification du stock pour le pack ${packId} du ${startDate} au ${endDate}`);
-      dispatch(fetchAvailablePackStock({ packId, startDate, endDate }));
+  // ✅ Récupérer le stock des produits inclus dans le pack
+// Dans votre useEffect de PackDetails.jsx :
+useEffect(() => {
+  async function fetchStockForPackProducts() {
+    if (!pack || !startDate || !endDate) return;
+
+    const productStockPromises = pack.products.map(async (packItem) => {
+      if (!packItem.product || !packItem.product._id) {
+        console.error(`Produit invalide dans le pack :`, packItem);
+        return { productId: null, availableStock: 0 };
+      }
+
+      try {
+        const productId = packItem.product._id;
+        // Convertir les dates au format ISO et les encoder
+        const startDateStr = encodeURIComponent(startDate.toISOString());
+        const endDateStr = encodeURIComponent(endDate.toISOString());
+        // Désactiver le cache pour éviter les réponses 304
+        const response = await fetch(
+          `/api/stock/${productId}?startDate=${startDateStr}&endDate=${endDateStr}`,
+          { cache: 'no-store' }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Erreur récupération stock pour ${packItem.product.title}`);
+        }
+
+        const data = await response.json();
+        return { productId, availableStock: data.availableStock };
+      } catch (error) {
+        console.error(`Erreur récupération stock produit ${packItem.product.title}:`, error);
+        return { productId: null, availableStock: 0 };
+      }
+    });
+
+    const stockResults = await Promise.all(productStockPromises);
+    const stockMap = stockResults.reduce((acc, item) => {
+      if (item.productId) acc[item.productId] = item.availableStock;
+      return acc;
+    }, {});
+
+    setProductStockAvailability(stockMap);
+
+    // Calcul du nombre maximal de packs disponibles
+    if (pack?.products) {
+      const maxPossiblePacks = pack.products.map((packItem) => {
+        const availableStock = stockMap[packItem.product._id] || 0;
+        return Math.floor(availableStock / packItem.quantity);
+      });
+
+      setMaxPackQuantity(Math.min(...maxPossiblePacks));
     }
-  }, [packId, startDate, endDate, dispatch]);
+  }
+
+  fetchStockForPackProducts();
+}, [pack, startDate, endDate]);
+
+
   
-  const isFormValid =
-    pack &&
-    startDate &&
-    endDate &&
-    quantity > 0 &&
-    quantity <= availableStock &&
-    !error;
+  
+
+  // ✅ Vérification des conditions avant d'ajouter au panier
+  const isFormValid = pack && startDate && endDate && quantity > 0 && quantity <= maxPackQuantity && !error;
 
   return (
     <Container className="pack-details">
@@ -214,33 +120,64 @@ export default function PackDetails() {
         <PackProducts products={pack?.products || []} />
 
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fr}>
-          <RentalPeriod startDate={startDate} endDate={endDate} onStartDateChange={setStartDate} onEndDateChange={setEndDate} minStartDate={addDays(new Date(), 2)} />
+          <RentalPeriod
+            startDate={startDate}
+            endDate={endDate}
+            onStartDateChange={setStartDate}
+            onEndDateChange={setEndDate}
+            minStartDate={addDays(new Date(), 2)}
+          />
         </LocalizationProvider>
 
-        <Typography variant="body2" color="textSecondary">Stock maximal : {pack?.stock ?? "Chargement..."}</Typography>
+        <Typography variant="body2" color="textSecondary">
+          Nombre maximal de packs disponibles : {maxPackQuantity !== null ? maxPackQuantity : "Chargement..."}
+        </Typography>
 
-        {startDate && endDate && (
-          stockLoading ? (
-            <Typography color="textSecondary" variant="body2">Chargement du stock...</Typography>
-          ) : availableStock !== undefined ? (
-            <Typography color="textSecondary" variant="body2">
-              Stock disponible : <strong>{availableStock}</strong>
-            </Typography>
-          ) : null
-        )}
+        <Paper className="pack-details__product-stock">
+  <Typography variant="h6">Stock des produits du pack</Typography>
+  {pack?.products.map((packItem) => {
+  const product = packItem.product;
+  const productId = product?._id;
+  // Utilisation de "title" au lieu de "name"
+  const productName = product?.title || "Produit inconnu";
 
-        <QuantitySelector quantity={quantity} onChange={setQuantity} minQuantity={pack?.minQuantity} stock={availableStock} />
+  return productId ? (
+    <Typography key={productId} variant="body2" color="textSecondary">
+      {productName}: {productStockAvailability[productId] !== undefined
+        ? `${productStockAvailability[productId]} disponibles`
+        : "Chargement..."}
+    </Typography>
+  ) : (
+    <Typography key={Math.random()} variant="body2" color="error">
+      Produit invalide : Données manquantes
+    </Typography>
+  );
+})}
+
+</Paper>
+
+
+
+
+        <QuantitySelector quantity={quantity} onChange={setQuantity} minQuantity={pack?.minQuantity} stock={maxPackQuantity} />
 
         {error && <Alert severity="error">{error}</Alert>}
 
-        <PriceCalculation products={pack?.products || []} quantity={quantity} startDate={startDate} endDate={endDate} discountPercentage={pack?.discountPercentage} />
+        <PriceCalculation
+          products={pack?.products || []}
+          quantity={quantity}
+          startDate={startDate}
+          endDate={endDate}
+          discountPercentage={pack?.discountPercentage}
+          setFinalPrice={setFinalPrice}
+        />
 
         <Button
           variant="contained"
           color="primary"
           fullWidth
           size="large"
-          onClick={() => addToCart({ ...pack, type: 'pack', quantity, startDate, endDate })}
+          onClick={() => addToCart({ ...pack, type: 'pack', quantity, startDate, endDate, price: finalPrice })}
           className="pack-details__add-to-cart"
           disabled={!isFormValid}
         >
@@ -250,4 +187,3 @@ export default function PackDetails() {
     </Container>
   );
 }
-

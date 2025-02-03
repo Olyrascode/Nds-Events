@@ -120,6 +120,17 @@ export default function ProductForm({
         inputProps={{ min: 1 }}
         disabled={loading}
       />
+<TextField
+  fullWidth
+  label="Quantité par lot (optionnel)"
+  type="number"
+  value={product.lotSize || ''}
+  onChange={(e) => setProduct({ ...product, lotSize: e.target.value })}
+  margin="normal"
+  inputProps={{ min: 1 }}
+  disabled={loading}
+/>
+
 
       <TextField
         fullWidth
